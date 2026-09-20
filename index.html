@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samer Gaming Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0a0a0c;
+            --bg-card: #141419;
+            --bg-card-active: #1c1a24;
+            --accent-red: #ff003c;
+            --accent-red-hover: #d60032;
+            --text-white: #ffffff;
+            --text-gray: #a0a0ab;
+            --border-color: #2a2a35;
+            --success-green: #00e676;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #1f050a 0%, #0a0a0c 100%);
+            border: 1px solid var(--accent-red);
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.2);
+            margin-bottom: 25px;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-title i {
+            font-size: 2rem;
+            color: var(--accent-red);
+            text-shadow: 0 0 10px var(--accent-red);
+        }
+
+        .logo-title h1 {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .header-actions button {
+            background: var(--accent-red);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 0, 60, 0.4);
+        }
+
+        .header-actions button:hover {
+            background: var(--accent-red-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Main Layout Grid */
+        .section-title {
+            font-size: 1.4rem;
+            margin: 20px 0 15px 0;
+            color: var(--accent-red);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .devices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Device Card Compact Design */
+        .device-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .device-card.active {
+            border-color: var(--accent-red);
+            background-color: var(--bg-card-active);
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.15);
+        }
+
+        .device-card.alarm {
+            animation: pulse-alarm 1s infinite alternate;
+        }
+
+        @keyframes pulse-alarm {
+            0% { border-color: var(--accent-red); box-shadow: 0 0 10px var(--accent-red); }
+            100% { border-color: #ffffff; box-shadow: 0 0 25px var(--accent-red); }
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .device-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .device-status {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: #2a2a35;
+            color: var(--text-gray);
+        }
+
+        .device-card.active .device-status {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px 12px;
+            background: #0a0a0c;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: var(--accent-red);
+        }
+
+        .options-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .timer-display {
+            text-align: center;
+            background: #000;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed var(--border-color);
+            margin: 5px 0;
+        }
+
+        .timer-display .time {
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: monospace;
+            color: var(--success-green);
+        }
+
+        .device-card.active .timer-display .time {
+            color: var(--accent-red);
+            text-shadow: 0 0 8px rgba(255, 0, 60, 0.6);
+        }
+
+        /* Items / Refreshments Section inside Card */
+        .items-section {
+            background: #0d0d11;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #1a1a24;
+        }
+
+        .items-title {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+
+        .btn-item {
+            background: #1f1f2a;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 4px 2px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 6px;
+        }
+
+        .btn-item:hover {
+            border-color: var(--accent-red);
+        }
+
+        .btn-item .item-ops {
+            display: flex;
+            gap: 4px;
+        }
+
+        .btn-item span.add { color: var(--success-green); font-weight: bold; }
+        .btn-item span.sub { color: var(--accent-red); font-weight: bold; }
+
+        .items-total {
+            font-size: 0.85rem;
+            margin-top: 6px;
+            text-align: right;
+            color: #ffb703;
+        }
+
+        /* Action Buttons */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .btn-start { background: var(--success-green); color: #000; grid-column: span 2; }
+        .btn-start:hover { background: #00c853; }
+
+        .btn-extend { background: #ffb703; color: #000; }
+        .btn-extend:hover { background: #e0a100; }
+
+        .btn-end { background: var(--accent-red); color: #fff; }
+        .btn-end:hover { background: var(--accent-red-hover); }
+
+        .btn-ack {
+            background: #ff003c;
+            color: #fff;
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            animation: blink 0.5s infinite alternate;
+            grid-column: span 2;
+        }
+
+        @keyframes blink { 0% { opacity: 0.7; } 100% { opacity: 1; } }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-red);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            padding: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .invoice-box {
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .invoice-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 10px; }
+        .invoice-row { display: flex; justify-content: space-between; margin: 5px 0; }
+        .invoice-total { border-top: 2px dashed #000; padding-top: 10px; margin-top: 10px; font-weight: bold; font-size: 1.2rem; }
+
+        /* Logs Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        th { background: #1a1a24; color: var(--accent-red); }
+
+        .custom-time-inputs {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-title">
+            <i class="fa-solid fa-gamepad"></i>
+            <h1>SAMER GAMING</h1>
+        </div>
+        <div class="header-actions">
+            <button onclick="openLogsModal()"><i class="fa-solid fa-receipt"></i> السجل اليومي</button>
+        </div>
+    </header>
+
+    <!-- PlayStation Section -->
+    <div class="section-title">
+        <i class="fa-brands fa-playstation"></i> أجهزة البلايستيشن (PlayStation)
+    </div>
+    <div class="devices-grid" id="psContainer"></div>
+
+    <!-- PC Section -->
+    <div class="section-title">
+        <i class="fa-solid fa-desktop"></i> أجهزة الكمبيوتر (PC Gaming)
+    </div>
+    <div class="devices-grid" id="pcContainer"></div>
+
+    <!-- Invoice Modal -->
+    <div class="modal" id="invoiceModal">
+        <div class="modal-content">
+            <h2><i class="fa-solid fa-file-invoice-dollar"></i> فاتورة العميل</h2>
+            <div class="invoice-box" id="invoiceBody"></div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn btn-extend" onclick="window.print()">طباعة</button>
+                <button class="btn btn-end" onclick="closeInvoiceModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs Modal -->
+    <div class="modal" id="logsModal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2><i class="fa-solid fa-list-check"></i> السجل اليومي للعمليات</h2>
+                <button class="btn btn-end" onclick="resetLogs()">تصفير السجل فوراً</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>العميل</th>
+                            <th>الجهاز</th>
+                            <th>وقت البدء</th>
+                            <th>وقت الانتهاء</th>
+                            <th>حساب اللعب</th>
+                            <th>حساب السلع</th>
+                            <th>المجموع الكلي</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody"></tbody>
+                </table>
+            </div>
+            <div style="margin-top: 15px; text-align: left;">
+                <button class="btn btn-extend" onclick="closeLogsModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const itemValues = [5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        
+        // Initial Devices Data
+        const devices = [
+            // 4 PlayStations
+            { id: 'ps1', name: 'PlayStation 1', type: 'ps', isRunning: false, alarm: false, customer: '', mode: '80', durationMinutes: 60, targetTime: null, startTimeStr: '', itemsTotal: 0, itemsList: [], carryOverPlay: 0, carryOverItems: 0 },
+            { id: 'ps2', name: 'PlayStation 2', type: 'ps', isRunning: false, alarm: false, customer: '', mode: '80', durationMinutes: 60, targetTime: null, startTimeStr: '', itemsTotal: 0, itemsList: [], carryOverPlay: 0, carryOverItems: 0 },
+            { id: 'ps3', name: 'PlayStation 3', type: 'ps', isRunning: false, alarm: false, customer: '', mode: '80', durationMinutes: 60, targetTime: null, startTimeStr: '', itemsTotal: 0, itemsList: [], carryOverPlay: 0, carryOverItems: 0 },
+            { id: 'ps4', name: 'PlayStation 4', type: 'ps', isRunning: false, alarm: false, customer: '', mode: '80', durationMinutes: 60, targetTime: null, startTimeStr: '', itemsTotal: 0, itemsList: [], carryOverPlay: 0, carryOverItems: 0 },
+            // PC Devices (e.g. 4 PCs)
+            { id: 'pc1', name: 'PC Gaming 1', type: 'pc', isRunning: false, alarm: false, customer: '', mode: '80', durationMinutes: 60, targetTime: null, startTimeStr: '', itemsTotal: 0, itemsList: [], carryOverPlay: 0, carryOverItems: 0 },
+            { id: 'pc2', name: 'PC Gaming 2', type: 'pc', isRunning: false, alarm: false, customer: '', mode: '80', durationMinutes: 60, targetTime: null, startTimeStr: '', itemsTotal: 0, itemsList: [], carryOverPlay: 0, carryOverItems: 0 },
+            { id: 'pc3', name: 'PC Gaming 3', type: 'pc', isRunning: false, alarm: false, customer: '', mode: '80', durationMinutes: 60, targetTime: null, startTimeStr: '', itemsTotal: 0, itemsList: [], carryOverPlay: 0, carryOverItems: 0 },
+            { id: 'pc4', name: 'PC Gaming 4', type: 'pc', isRunning: false, alarm: false, customer: '', mode: '80', durationMinutes: 60, targetTime: null, startTimeStr: '', itemsTotal: 0, itemsList: [], carryOverPlay: 0, carryOverItems: 0 }
+        ];
+
+        let dailyLogs = [];
+
+        // Audio Context for Alarm
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let alarmInterval = null;
+
+        function playSound() {
+            try {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.type = 'sawtooth';
+                osc.frequency.value = 800;
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch(e){}
+        }
+
+        function renderDevices() {
+            const psContainer = document.getElementById('psContainer');
+            const pcContainer = document.getElementById('pcContainer');
+            psContainer.innerHTML = '';
+            pcContainer.innerHTML = '';
+
+            devices.forEach((dev, index) => {
+                const card = document.createElement('div');
+                card.className = `device-card ${dev.isRunning ? 'active' : ''} ${dev.alarm ? 'alarm' : ''}`;
+                
+                let icon = dev.type === 'ps' ? '<i class="fa-brands fa-playstation" style="color:#0037ae;"></i>' : '<i class="fa-solid fa-desktop" style="color:#ff003c;"></i>';
+
+                let itemsButtons = itemValues.map(val => `
+                    <div class="btn-item">
+                        <span>${val}ل</span>
+                        <div class="item-ops">
+                            <span class="add" onclick="addItem(${index}, ${val})">+</span>
+                            <span class="sub" onclick="removeItem(${index}, ${val})">-</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="device-name">${icon} ${dev.name}</div>
+                        <div class="device-status">${dev.isRunning ? 'مشغول' : 'متاح'}</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>اسم العميل:</label>
+                        <input type="text" id="cust_${index}" value="${dev.customer}" placeholder="أدخل اسم العميل" ${dev.isRunning ? 'disabled' : ''} onchange="dev.customer = this.value">
+                    </div>
+
+                    ${dev.type === 'ps' ? `
+                    <div class="input-group">
+                        <label>نوع اللعب والسعر:</label>
+                        <select id="mode_${index}" ${dev.isRunning ? 'disabled' : ''} onchange="devices[${index}].mode = this.value">
+                            <option value="80" ${dev.mode === '80' ? 'selected' : ''}>ثنائي - 80 ليرة/ساعة</option>
+                            <option value="120" ${dev.mode === '120' ? 'selected' : ''}>ثلاثي - 120 ليرة/ساعة</option>
+                            <option value="160" ${dev.mode === '160' ? 'selected' : ''}>رباعي - 160 ليرة/ساعة</option>
+                        </select>
+                    </div>
+                    ` : `
+                    <div class="input-group">
+                        <label>سعر الساعة ثابت:</label>
+                        <input type="text" value="80 ليرة / ساعة" disabled>
+                    </div>
+                    `}
+
+                    <div class="input-group">
+                        <label>حدد الوقت:</label>
+                        <select id="timeSelect_${index}" ${dev.isRunning ? 'disabled' : ''} onchange="handleTimeSelectChange(${index}, this.value)">
+                            <option value="15">ربع ساعة (15 دقيقة)</option>
+                            <option value="30">نص ساعة (30 دقيقة)</option>
+                            <option value="60" selected>ساعة (1 ساعة)</option>
+                            <option value="90">ساعة ونص (1 ساعة و30 دقيقة)</option>
+                            <option value="120">ساعتين (2 ساعة)</option>
+                            <option value="custom">توقيت مخصص...</option>
+                        </select>
+                    </div>
+
+                    <div id="customTimeBox_${index}" class="custom-time-inputs" style="display:none;">
+                        <input type="number" id="customHours_${index}" placeholder="ساعات" min="0" style="width:50%;">
+                        <input type="number" id="customMins_${index}" placeholder="دقائق" min="0" max="59" style="width:50%;">
+                    </div>
+
+                    <div class="timer-display">
+                        <div class="time" id="timer_display_${index}">00:00:00</div>
+                    </div>
+
+                    <div class="items-section">
+                        <div class="items-title">
+                            <span>إضافة سلع ومشاريب:</span>
+                        </div>
+                        <div class="items-grid">
+                            ${itemsButtons}
+                        </div>
+                        <div class="items-total">إجمالي السلع: <b id="items_sum_${index}">${dev.itemsTotal + dev.carryOverItems}</b> ليرة</div>
+                    </div>
+
+                    <div class="card-actions">
+                        ${dev.alarm ? `
+                            <button class="btn btn-ack" onclick="acknowledgeAlarm(${index})"><i class="fa-solid fa-bell-slash"></i> انتبهت (إيقاف الإنذار)</button>
+                        ` : dev.isRunning ? `
+                            <button class="btn btn-extend" onclick="extendTime(${index})"><i class="fa-solid fa-clock-rotate-left"></i> تمديد الوقت</button>
+                            <button class="btn btn-end" onclick="finishSession(${index})"><i class="fa-solid fa-flag-checkered"></i> إنهاء الحساب</button>
+                        ` : `
+                            <button class="btn btn-start" onclick="startSession(${index})"><i class="fa-solid fa-play"></i> بدء الحجز</button>
+                        `}
+                    </div>
+                `;
+
+                if (dev.type === 'ps') psContainer.appendChild(card);
+                else pcContainer.appendChild(card);
+            });
+        }
+
+        function handleTimeSelectChange(index, val) {
+            const customBox = document.getElementById(`customTimeBox_${index}`);
+            if (val === 'custom') {
+                customBox.style.display = 'flex';
+            } else {
+                customBox.style.display = 'none';
+                devices[index].durationMinutes = parseInt(val);
+            }
+        }
+
+        function addItem(index, value) {
+            devices[index].itemsList.push(value);
+            devices[index].itemsTotal += value;
+            document.getElementById(`items_sum_${index}`).innerText = devices[index].itemsTotal + devices[index].carryOverItems;
+        }
+
+        function removeItem(index, value) {
+            const idx = devices[index].itemsList.indexOf(value);
+            if (idx > -1) {
+                devices[index].itemsList.splice(idx, 1);
+                devices[index].itemsTotal -= value;
+                document.getElementById(`items_sum_${index}`).innerText = devices[index].itemsTotal + devices[index].carryOverItems;
+            }
+        }
+
+        function startSession(index) {
+            const dev = devices[index];
+            const custInput = document.getElementById(`cust_${index}`).value.trim();
+            if (!custInput) {
+                alert("يرجى إدخال اسم العميل أولاً");
+                return;
+            }
+            dev.customer = custInput;
+
+            const timeSel = document.getElementById(`timeSelect_${index}`).value;
+            let totalMins = 0;
+            if (timeSel === 'custom') {
+                const h = parseInt(document.getElementById(`customHours_${index}`).value) || 0;
+                const m = parseInt(document.getElementById(`customMins_${index}`).value) || 0;
+                totalMins = (h * 60) + m;
+            } else {
+                totalMins = parseInt(timeSel);
+            }
+
+            if (totalMins <= 0) {
+                alert("يرجى تحديد وقت صالح");
+                return;
+            }
+
+            dev.durationMinutes = totalMins;
+            dev.isRunning = true;
+            dev.alarm = false;
+            dev.startTimeStr = new Date().toLocaleTimeString('ar-EG');
+            dev.targetTime = Date.now() + (totalMins * 60 * 1000);
+
+            renderDevices();
+        }
+
+        function finishSession(index) {
+            const dev = devices[index];
+            const endTimeStr = new Date().toLocaleTimeString('ar-EG');
+            
+            // Calculate play cost based on duration
+            let ratePerHour = dev.type === 'ps' ? parseInt(dev.mode) : 80;
+            let playCost = Math.round((dev.durationMinutes / 60) * ratePerHour);
+
+            let totalPlayCost = playCost + dev.carryOverPlay;
+            let totalItemsCost = dev.itemsTotal + dev.carryOverItems;
+            let grandTotal = totalPlayCost + totalItemsCost;
+
+            // Generate Invoice HTML
+            const invoiceHtml = `
+                <div class="invoice-header">
+                    <h2>SAMER GAMING CENTER</h2>
+                    <p>فاتورة حساب عميل</p>
+                </div>
+                <div class="invoice-row"><span>اسم العميل:</span> <b>${dev.customer}</b></div>
+                <div class="invoice-row"><span>اسم الجهاز:</span> <b>${dev.name}</b></div>
+                <div class="invoice-row"><span>وقت البدء:</span> <span>${dev.startTimeStr}</span></div>
+                <div class="invoice-row"><span>وقت الانتهاء:</span> <span>${endTimeStr}</span></div>
+                <div class="invoice-row"><span>مدة اللعب الكلية:</span> <span>${dev.durationMinutes} دقيقة</span></div>
+                <hr style="margin: 10px 0;">
+                <div class="invoice-row"><span>تكلفة اللعب:</span> <b>${totalPlayCost} ليرة</b></div>
+                <div class="invoice-row"><span>تكلفة السلع والمشاريب:</span> <b>${totalItemsCost} ليرة</b></div>
+                <div class="invoice-total invoice-row">
+                    <span>المجموع النهائي:</span>
+                    <span>${grandTotal} ليرة</span>
+                </div>
+            `;
+
+            document.getElementById('invoiceBody').innerHTML = invoiceHtml;
+            document.getElementById('invoiceModal').style.display = 'flex';
+
+            // Add to logs
+            dailyLogs.push({
+                customer: dev.customer,
+                device: dev.name,
+                startTime: dev.startTimeStr,
+                endTime: endTimeStr,
+                playCost: totalPlayCost,
+                itemsCost: totalItemsCost,
+                grandTotal: grandTotal
+            });
+
+            // Reset Device
+            resetDeviceData(dev);
+            renderDevices();
+        }
+
+        function extendTime(index) {
+            const dev = devices[index];
+
+            // 1. Calculate current play cost before extension
+            let ratePerHour = dev.type === 'ps' ? parseInt(dev.mode) : 80;
+            let currentPlayCost = Math.round((dev.durationMinutes / 60) * ratePerHour);
+
+            // 2. Add current costs to carryOver
+            dev.carryOverPlay += currentPlayCost;
+            dev.carryOverItems += dev.itemsTotal;
+
+            // Reset current session items
+            dev.itemsTotal = 0;
+            dev.itemsList = [];
+
+            // Get Extension time
+            const timeSel = document.getElementById(`timeSelect_${index}`).value;
+            let addMins = 0;
+            if (timeSel === 'custom') {
+                const h = parseInt(document.getElementById(`customHours_${index}`).value) || 0;
+                const m = parseInt(document.getElementById(`customMins_${index}`).value) || 0;
+                addMins = (h * 60) + m;
+            } else {
+                addMins = parseInt(timeSel);
+            }
+
+            if (addMins <= 0) {
+                alert("يرجى تحديد وقت صالح للتمديد");
+                return;
+            }
+
+            dev.durationMinutes = addMins;
+            dev.targetTime = Date.now() + (addMins * 60 * 1000);
+            dev.isRunning = true;
+            dev.alarm = false;
+
+            alert(`تم تمديد الجهاز بـ ${addMins} دقيقة وتدويل الحساب القديم بنجاح.`);
+            renderDevices();
+        }
+
+        function resetDeviceData(dev) {
+            dev.isRunning = false;
+            dev.alarm = false;
+            dev.customer = '';
+            dev.targetTime = null;
+            dev.itemsTotal = 0;
+            dev.itemsList = [];
+            dev.carryOverPlay = 0;
+            dev.carryOverItems = 0;
+            dev.durationMinutes = 60;
+        }
+
+        function acknowledgeAlarm(index) {
+            devices[index].alarm = false;
+            renderDevices();
+        }
+
+        // Precise Timer Loop based on System Time
+        setInterval(() => {
+            let hasAlarm = false;
+            const now = Date.now();
+
+            devices.forEach((dev, index) => {
+                if (dev.isRunning && dev.targetTime) {
+                    let diff = dev.targetTime - now;
+
+                    if (diff <= 0) {
+                        dev.isRunning = false;
+                        dev.alarm = true;
+                        diff = 0;
+                    }
+
+                    // Format Time: Hours, Minutes, Seconds
+                    let hrs = Math.floor(diff / (1000 * 60 * 60));
+                    let mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    let secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    let formatted = 
+                        `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+                    const timerEl = document.getElementById(`timer_display_${index}`);
+                    if (timerEl) timerEl.innerText = formatted;
+                }
+
+                if (dev.alarm) {
+                    hasAlarm = true;
+                }
+            });
+
+            if (hasAlarm) {
+                playSound();
+            }
+        }, 1000);
+
+        // Modals & Logs Handling
+        function closeInvoiceModal() {
+            document.getElementById('invoiceModal').style.display = 'none';
+        }
+
+        function openLogsModal() {
+            const tbody = document.getElementById('logsTableBody');
+            tbody.innerHTML = '';
+
+            dailyLogs.forEach(log => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${log.customer}</td>
+                    <td>${log.device}</td>
+                    <td>${log.startTime}</td>
+                    <td>${log.endTime}</td>
+                    <td>${log.playCost} ليرة</td>
+                    <td>${log.itemsCost} ليرة</td>
+                    <td><b>${log.grandTotal} ليرة</b></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('logsModal').style.display = 'flex';
+        }
+
+        function closeLogsModal() {
+            document.getElementById('logsModal').style.display = 'none';
+        }
+
+        function resetLogs() {
+            if (confirm("هل أنت تأكد من تصفير السجل اليومي للعمليات بالكامل؟")) {
+                dailyLogs = [];
+                openLogsModal();
+            }
+        }
+
+        // Initial Render
+        renderDevices();
+    </script>
+</body>
+</html>
